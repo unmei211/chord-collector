@@ -9,3 +9,6 @@ Plane:
 3. Вывод аппликатур аккорда.
 4. Алгоритм подбора простых последовательностей. 
 
+Бэклог:
+https://docs.google.com/spreadsheets/d/1ddp-AJOpQ5Mao4SFX6FsR4t-dbQV_0luVl6esDMpZOc/edit#gid=0
+
