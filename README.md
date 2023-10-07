@@ -12,3 +12,5 @@ Plane:
 Бэклог:
 https://docs.google.com/spreadsheets/d/1ddp-AJOpQ5Mao4SFX6FsR4t-dbQV_0luVl6esDMpZOc/edit#gid=0
 
+Файл с выполненными заданиями:
+https://docs.google.com/document/d/1KCobgrgGzL3R2naNq-oEyGYJPYPfMDUZOjmvDEXpGUs/edit
