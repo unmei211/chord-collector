@@ -1,4 +1,4 @@
-package omsu.it;
+package it.omsu;
 
 public class Main {
     public static void main(String[] args)
