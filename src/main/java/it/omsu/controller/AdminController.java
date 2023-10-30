@@ -11,11 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdminController {
-    @Autowired
+//    @Autowired
     private UserService userService;
+
+    public AdminController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/admin")
     public String userList(Model model) {
+        System.out.println("admin controll !!!!!!!!!!!!");
         model.addAttribute("allUsers", userService.allUsers());
         return "admin";
     }
