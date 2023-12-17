@@ -31,8 +31,9 @@ public class ChordServiceImpl implements ChordService {
     }
 
     @Override
-    public List<Chord> getAllChords() {
-        return chords;
+    public List<Chord> getAllChords()
+    {
+        return chordRepository.findAll();
     }
 
     @Override

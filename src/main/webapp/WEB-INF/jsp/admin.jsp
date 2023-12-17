@@ -1,5 +1,7 @@
+<%@ page import="it.omsu.entity.Chord" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,8 +35,35 @@
             </tr>
         </c:forEach>
     </table>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% List<Chord> chords = (List<Chord>) request.getAttribute("allChords"); %>
+        <%-- Цикл для перебора и отображения аккордов --%>
+        <% for (Chord chord : chords) { %>
+        <tr>
+            <td><%= chord.getId() %>
+            </td>
+            <td><%= chord.getName() %>
+            </td>
+            </td>
+            <td>
+                <a href="/collector/update/<%= chord.getId() %>">Edit</a>
+                <form action="/collector/delete/<%= chord.getId() %>" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <% } %>
     <a href="/">Главная</a>
 </div>
 </body>
-</html>
 </html>

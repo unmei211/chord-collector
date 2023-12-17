@@ -1,5 +1,6 @@
 package it.omsu.controller;
 
+import it.omsu.service.ChordService;
 import it.omsu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,22 +12,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdminController {
-//    @Autowired
+    //    @Autowired
     private UserService userService;
+    private ChordService chordService;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, ChordService chordService) {
         this.userService = userService;
+        this.chordService = chordService;
     }
 
     @GetMapping("/admin")
     public String userList(Model model) {
         model.addAttribute("allUsers", userService.allUsers());
+        model.addAttribute("allChords", chordService.getAllChords());
         return "admin";
     }
 
     @PostMapping("/admin")
     public String deleteUser(@RequestParam(required = true, defaultValue = "") Long userId, @RequestParam(required = true, defaultValue = "") String action, Model model) {
-        if(action.equals("delete")) {
+        if (action.equals("delete")) {
             userService.deleteUser(userId);
         }
         return "redirect:/admin";

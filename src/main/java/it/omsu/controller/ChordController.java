@@ -3,6 +3,7 @@ package it.omsu.controller;
 import it.omsu.entity.Chord;
 import it.omsu.entity.User;
 import it.omsu.service.ChordService;
+import it.omsu.service.ChordServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,20 +36,19 @@ public class ChordController {
     @GetMapping("/collector")
     public String getAllChords(Model model) {
         model.addAttribute("chordForm", new Chord());
-        List<Chord> chords = chordService.getAllChords();
-        model.addAttribute("chords", chords);
+        model.addAttribute("allChords", chordService.getAllChords());
         return "collector";
     }
 
     @PostMapping("/collector/update")
     public String updateChord(@ModelAttribute Chord chord) {
         chordService.updateChord(chord);
-        return "redirect:/collector/";
+        return "redirect:/admin";
     }
 
     @PostMapping("/collector/delete/{id}")
     public String deleteChord(@PathVariable Long id) {
         chordService.deleteChord(id);
-        return "redirect:/collector";
+        return "redirect:/admin";
     }
 }
