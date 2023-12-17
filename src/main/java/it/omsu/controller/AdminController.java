@@ -20,7 +20,6 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String userList(Model model) {
-        System.out.println("admin controll !!!!!!!!!!!!");
         model.addAttribute("allUsers", userService.allUsers());
         return "admin";
     }
