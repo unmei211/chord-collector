@@ -39,16 +39,4 @@ public class ChordController {
         model.addAttribute("allChords", chordService.getAllChords());
         return "collector";
     }
-
-    @PostMapping("/collector/update")
-    public String updateChord(@ModelAttribute Chord chord) {
-        chordService.updateChord(chord);
-        return "redirect:/admin";
-    }
-
-    @PostMapping("/collector/delete/{id}")
-    public String deleteChord(@PathVariable Long id) {
-        chordService.deleteChord(id);
-        return "redirect:/admin";
-    }
 }

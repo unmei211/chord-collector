@@ -1,14 +1,12 @@
 package it.omsu.controller;
 
+import it.omsu.entity.Chord;
 import it.omsu.service.ChordService;
 import it.omsu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AdminController {
@@ -33,6 +31,18 @@ public class AdminController {
         if (action.equals("delete")) {
             userService.deleteUser(userId);
         }
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/admin/update")
+    public String updateChord(@ModelAttribute Chord chord) {
+        chordService.updateChord(chord);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/admin/delete/{id}")
+    public String deleteChord(@PathVariable Long id) {
+        chordService.deleteChord(id);
         return "redirect:/admin";
     }
 

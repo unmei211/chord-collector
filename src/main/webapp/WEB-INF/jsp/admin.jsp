@@ -54,8 +54,8 @@
             </td>
             </td>
             <td>
-                <a href="/collector/update/<%= chord.getId() %>">Edit</a>
-                <form action="/collector/delete/<%= chord.getId() %>" method="POST">
+                <a href="/admin/update/<%= chord.getId() %>">Edit</a>
+                <form action="/admin/delete/<%= chord.getId() %>" method="POST">
                     <button type="submit">Delete</button>
                 </form>
             </td>

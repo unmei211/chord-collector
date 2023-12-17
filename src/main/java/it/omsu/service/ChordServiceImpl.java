@@ -45,7 +45,11 @@ public class ChordServiceImpl implements ChordService {
     }
 
     @Override
-    public void deleteChord(Long id) {
-        chords.removeIf(chord -> chord.getId().equals(id));
+    public boolean deleteChord(Long chordId) {
+        if (chordRepository.findById(chordId).isPresent()) {
+            chordRepository.deleteById(chordId);
+            return true;
+        }
+        return false;
     }
 }

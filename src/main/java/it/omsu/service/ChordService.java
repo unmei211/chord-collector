@@ -9,5 +9,5 @@ public interface ChordService {
     Chord getChordById(Long id);
     List<Chord> getAllChords();
     void updateChord(Chord chord);
-    void deleteChord(Long id);
+    boolean deleteChord(Long id);
 }
