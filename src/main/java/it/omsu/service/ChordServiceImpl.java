@@ -39,10 +39,7 @@ public class ChordServiceImpl implements ChordService {
     public void updateChord(Long id, String updateForm) {
         Chord chord = chordRepository.findById(id).get();
         chord.setName(updateForm);
-        int index = chords.indexOf(chord);
-        if (index != -1) {
-            chords.set(index, chord);
-        }
+        chordRepository.save(chord);
     }
 
     @Override

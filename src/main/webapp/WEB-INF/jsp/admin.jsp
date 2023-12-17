@@ -55,9 +55,9 @@
             </td>
 
             <td>
-                <form method="POST" action="admin/update/<%= chord.getId() %>>" modelAttribute="updateForm">
+                <form method="POST" action="admin/update/<%= chord.getId() %>">
                     <div>
-                        <input type="text" path="updatename" placeholder="Updatename"></input>
+                        <input type="text" name="updatename" placeholder="Updatename">
                         <button type="submit">Update</button>
                     </div>
                 </form>

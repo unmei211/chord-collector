@@ -62,6 +62,12 @@
                 </form:form>
                 <form:errors path="updatename"></form:errors>
                 ${updatenameError}
+<%--                <form:form method="POST" action="/collector/create" modelAttribute="chordForm">--%>
+<%--                    <form:input type="text" path="name" placeholder="Name"></form:input>--%>
+<%--                    <button type="submit">Create Chord</button>--%>
+<%--                </form:form>--%>
+<%--                <form:errors path="name"></form:errors>--%>
+<%--                ${nameError}--%>
 
 
                 <form action="/admin/delete/<%= chord.getId() %>" method="POST">
