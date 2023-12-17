@@ -18,8 +18,8 @@ public class ChordServiceImpl implements ChordService {
 
     @Override
     public void createChord(Chord chord) {
-        System.out.println("huy");
         chords.add(chord);
+        chordRepository.save(chord);
     }
 
     @Override

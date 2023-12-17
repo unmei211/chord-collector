@@ -1,6 +1,8 @@
 <%@ page import="it.omsu.entity.Chord" %>
 <%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,10 +11,12 @@
 </head>
 <body>
 <%-- Форма для создания аккорда --%>
-<form action="/collector/create" method="POST">
-    <input type="text" name="name" placeholder="Name">
+<form:form method="POST" action="/collector/create"  modelAttribute="chordForm">
+    <form:input type="text" path="name" placeholder="Name"></form:input>
     <button type="submit">Create Chord</button>
-</form>
+</form:form>
+<form:errors path="name"></form:errors>
+${nameError}
 
 <%-- Таблица для отображения списка аккордов --%>
 <table>
