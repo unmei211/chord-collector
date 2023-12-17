@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,9 +53,16 @@
             </td>
             <td><%= chord.getName() %>
             </td>
-            </td>
+
             <td>
-                <a href="/admin/update/<%= chord.getId() %>">Edit</a>
+                <form method="POST" action="admin/update/<%= chord.getId() %>>" modelAttribute="updateForm">
+                    <div>
+                        <input type="text" path="updatename" placeholder="Updatename"></input>
+                        <button type="submit">Update</button>
+                    </div>
+                </form>
+
+
                 <form action="/admin/delete/<%= chord.getId() %>" method="POST">
                     <button type="submit">Delete</button>
                 </form>

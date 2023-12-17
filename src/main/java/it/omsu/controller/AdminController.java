@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 public class AdminController {
     //    @Autowired
@@ -23,6 +25,7 @@ public class AdminController {
     public String userList(Model model) {
         model.addAttribute("allUsers", userService.allUsers());
         model.addAttribute("allChords", chordService.getAllChords());
+        model.addAttribute("updateForm", new Chord());
         return "admin";
     }
 
@@ -34,9 +37,10 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/admin/update")
-    public String updateChord(@ModelAttribute Chord chord) {
-        chordService.updateChord(chord);
+    @PostMapping("/admin/update/{id}")
+    public String updateChord(@PathVariable Long id, @ModelAttribute("updateForm") @Valid String updateForm) {
+        System.out.println("Admin");
+        chordService.updateChord(id, updateForm);
         return "redirect:/admin";
     }
 

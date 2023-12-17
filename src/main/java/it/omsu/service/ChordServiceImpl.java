@@ -31,13 +31,14 @@ public class ChordServiceImpl implements ChordService {
     }
 
     @Override
-    public List<Chord> getAllChords()
-    {
+    public List<Chord> getAllChords() {
         return chordRepository.findAll();
     }
 
     @Override
-    public void updateChord(Chord chord) {
+    public void updateChord(Long id, String updateForm) {
+        Chord chord = chordRepository.findById(id).get();
+        chord.setName(updateForm);
         int index = chords.indexOf(chord);
         if (index != -1) {
             chords.set(index, chord);
