@@ -12,7 +12,6 @@ import javax.validation.Valid;
 
 @Controller
 public class AdminController {
-    //    @Autowired
     private UserService userService;
     private ChordService chordService;
 

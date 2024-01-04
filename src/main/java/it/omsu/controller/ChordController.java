@@ -20,13 +20,6 @@ public class ChordController {
         this.chordService = chordService;
     }
 
-//    @GetMapping("/collector")
-//    public String collector(Model model) {
-//        model.addAttribute("chordForm", new Chord());
-//
-//        return "collector";
-//    }
-
     @PostMapping("/collector/create")
     public String createChord(@ModelAttribute("chordForm") @Valid Chord chordForm) {
         chordService.createChord(chordForm);

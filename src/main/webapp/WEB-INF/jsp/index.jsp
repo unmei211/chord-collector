@@ -5,6 +5,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <link rel="stylesheet" href="../resources/css/main.css">
     <title> Chord Collector</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
@@ -18,8 +19,11 @@
     <sec:authorize access = "isAuthenticated()">
         <h4><a href = "/logout">Выйти</a></h4>
     </sec:authorize>
-    <h4> <a href = "/collector">Сборщик аккордов (Только пользователь)</a></h4>
-    <h4> <a href = "/admin"> Пользователи (Только админ)</a></h4>
+    <h4> <a href = "/collector">Сборщик аккордов</a></h4>
+    <sec:authorize access = "hasRole('ROLE_ADMIN')">
+    <h4> <a href = "/admin"> Панель админа </a></h4>
+    </sec:authorize>
+
 </div>
 </body>
 </html>

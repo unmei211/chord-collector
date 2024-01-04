@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="../resources/css/main.css">
     <meta charset="UTF-8">
     <title>Create/Edit Chord</title>
 </head>

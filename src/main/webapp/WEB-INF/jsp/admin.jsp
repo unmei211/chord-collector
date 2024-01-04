@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="../resources/css/main.css">
     <meta charset="utf-8">
     <title>Log in with your account</title>
 </head>
