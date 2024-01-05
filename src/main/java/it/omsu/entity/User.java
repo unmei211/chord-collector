@@ -24,8 +24,15 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Progression> progressions;
+
     public User() {
 
+    }
+
+    public Set<Progression> getProgressions() {
+        return progressions;
     }
 
     public long getId() {

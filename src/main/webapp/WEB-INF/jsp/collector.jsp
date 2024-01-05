@@ -1,5 +1,6 @@
 <%@ page import="it.omsu.entity.Chord" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -12,7 +13,7 @@
     <title>Chords</title>
 </head>
 <body>
-<sec:authorize access = "isAuthenticated()">
+<sec:authorize access="isAuthenticated()">
     <%-- Форма для создания аккорда --%>
     <form:form method="POST" action="/collector/create" modelAttribute="chordForm">
         <form:input type="text" path="name" placeholder="Name"></form:input>
@@ -44,6 +45,20 @@
     </tbody>
 </table>
 
+<sec:authorize access="isAuthenticated()">
+    <% ArrayList<Chord> arrayList = new ArrayList<>();%>
+    <h4>Создать свою последовательность:</h4>
+    <form:form method="POST" action="/collector/createProgression" modelAttribute="progressionForm">
+        <form:select name="select" path="chords">
+            <% for (Chord chord : chords) { %>
+            <form:option value="<%= chord.getId()%>">
+                <%= chord.getName()%>
+            </form:option>
+            <%}%>
+        </form:select>
+        <button type="submit">Create Sequence</button>
+    </form:form>
+</sec:authorize>
 <a href="/">Главная</a>
 </body>
 </html>

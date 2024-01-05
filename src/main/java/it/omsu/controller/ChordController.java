@@ -1,6 +1,7 @@
 package it.omsu.controller;
 
 import it.omsu.entity.Chord;
+import it.omsu.entity.Progression;
 import it.omsu.entity.User;
 import it.omsu.service.ChordService;
 import it.omsu.service.ChordServiceImpl;
@@ -28,8 +29,14 @@ public class ChordController {
 
     @GetMapping("/collector")
     public String getAllChords(Model model) {
+          model.addAttribute("progressionForm", new Progression());
         model.addAttribute("chordForm", new Chord());
         model.addAttribute("allChords", chordService.getAllChords());
         return "collector";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        return "profile";
     }
 }
