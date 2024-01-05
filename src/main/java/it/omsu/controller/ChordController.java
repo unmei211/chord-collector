@@ -5,6 +5,7 @@ import it.omsu.entity.Progression;
 import it.omsu.entity.User;
 import it.omsu.service.ChordService;
 import it.omsu.service.ChordServiceImpl;
+import it.omsu.service.ProgressionService;
 import it.omsu.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +20,12 @@ import java.util.List;
 public class ChordController {
     private ChordService chordService;
     private UserService userService;
+    private ProgressionService progressionService;
 
-    public ChordController(ChordService chordService, UserService userService) {
+    public ChordController(ChordService chordService, UserService userService, ProgressionService progressionService) {
         this.chordService = chordService;
         this.userService = userService;
+        this.progressionService = progressionService;
     }
 
     @PostMapping("/collector/create")
@@ -41,8 +44,4 @@ public class ChordController {
         return "collector";
     }
 
-    @GetMapping("/profile")
-    public String profile(Model model) {
-        return "profile";
-    }
 }
