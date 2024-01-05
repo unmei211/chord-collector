@@ -30,7 +30,6 @@ public class User implements UserDetails {
     public User() {
 
     }
-
     public Set<Progression> getProgressions() {
         return progressions;
     }

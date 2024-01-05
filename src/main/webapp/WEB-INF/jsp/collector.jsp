@@ -46,9 +46,9 @@
 </table>
 
 <sec:authorize access="isAuthenticated()">
-    <% ArrayList<Chord> arrayList = new ArrayList<>();%>
     <h4>Создать свою последовательность:</h4>
-    <form:form method="POST" action="/collector/createProgression" modelAttribute="progressionForm">
+    <form:form method="POST" action="/collector/createProgression" modelAttribute="progressionForm"
+               id="progressionForm">
         <form:select name="select" path="chords">
             <% for (Chord chord : chords) { %>
             <form:option value="<%= chord.getId()%>">
@@ -56,9 +56,11 @@
             </form:option>
             <%}%>
         </form:select>
-        <button type="submit">Create Sequence</button>
+        <input type="hidden" name="user" value="${user}"> </input>
+        <button type="submit">Создать последовательность</button>
     </form:form>
 </sec:authorize>
+
 <a href="/">Главная</a>
 </body>
 </html>

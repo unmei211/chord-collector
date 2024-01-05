@@ -2,6 +2,7 @@ package it.omsu.service;
 
 import it.omsu.entity.Chord;
 import it.omsu.entity.Progression;
+import it.omsu.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,6 +2,7 @@ package it.omsu.service;
 
 import it.omsu.entity.Chord;
 import it.omsu.entity.Progression;
+import it.omsu.entity.User;
 import it.omsu.repository.ChordRepository;
 import it.omsu.repository.ProgressionRepository;
 import org.springframework.stereotype.Service;
