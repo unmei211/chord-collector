@@ -48,7 +48,11 @@ public class ProgressionServiceImpl implements ProgressionService {
     @Override
     public boolean deleteProgression(Long id) {
         if (progressionRepository.findById(id).isPresent()) {
-            progressionRepository.deleteById(id);
+            Progression progression = progressionRepository.findById(id).get();
+            for (User user : progression.getUsers()) {
+                user.getProgressions().remove(progression);
+            }
+            progressionRepository.delete(progression);
             return true;
         }
         return false;

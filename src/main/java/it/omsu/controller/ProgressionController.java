@@ -40,16 +40,7 @@ public class ProgressionController {
         return "redirect:/collector";
     }
 
-    @GetMapping("/profile")
-    public String showProfile(Model model) {
-        Long id = userService.getCurrentUserById();
-        User user = userService.findUserById(id);
-        Set<Progression> progressions = user.getProgressions();
-        System.out.println("Progressions: " + progressions);
-        model.addAttribute("progressions", progressions);
 
-        return "profile";
-    }
 }
 
 

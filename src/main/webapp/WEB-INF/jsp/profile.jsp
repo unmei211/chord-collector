@@ -23,6 +23,11 @@
         <%=chord.getName() %>
         <% } %>
     </td>
+    <td>
+        <form action="/profile/deleteProgression/<%= progression.getId() %>" method="POST">
+            <button type="submit">Delete</button>
+        </form>
+    </td>
     </tr>
     <% } %>
     </tbody>
