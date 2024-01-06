@@ -21,6 +21,10 @@ public class Chord {
     @ManyToMany(mappedBy = "chords")
     private List<Progression> progressions;
 
+    public List<Progression> getProgressions() {
+        return progressions;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
