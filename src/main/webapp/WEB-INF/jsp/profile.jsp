@@ -32,5 +32,6 @@
     <% } %>
     </tbody>
 </table>
+<a href="/">На главную</a>
 </body>
 </html>
