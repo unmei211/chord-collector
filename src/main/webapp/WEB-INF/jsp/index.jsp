@@ -23,7 +23,9 @@
     <sec:authorize access = "hasRole('ROLE_ADMIN')">
     <h4> <a href = "/admin"> Панель админа </a></h4>
     </sec:authorize>
-
+    <sec:authorize access = "isAuthenticated()">
+        <h4><a href = "/profile">Мой профиль</a></h4>
+    </sec:authorize>
 </div>
 </body>
 </html>

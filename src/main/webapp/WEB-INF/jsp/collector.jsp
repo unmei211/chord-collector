@@ -10,13 +10,14 @@
     <link rel="stylesheet" href="../resources/css/main.css">
     <meta charset="UTF-8">
     <title>Chords</title>
+    <% List<Chord> chords = (List<Chord>) request.getAttribute("allChords"); %>
 </head>
 <body>
-<sec:authorize access = "isAuthenticated()">
+<sec:authorize access="isAuthenticated()">
     <%-- Форма для создания аккорда --%>
     <form:form method="POST" action="/collector/create" modelAttribute="chordForm">
         <form:input type="text" path="name" placeholder="Name"></form:input>
-        <button type="submit">Create Chord</button>
+        <button type="submit">Создать аккорд</button>
     </form:form>
     <form:errors path="name"></form:errors>
     ${nameError}
@@ -31,7 +32,6 @@
     </tr>
     </thead>
     <tbody>
-    <% List<Chord> chords = (List<Chord>) request.getAttribute("allChords"); %>
     <%-- Цикл для перебора и отображения аккордов --%>
     <% for (Chord chord : chords) { %>
     <tr>
@@ -44,6 +44,27 @@
     </tbody>
 </table>
 
-<a href="/">Главная</a>
+<sec:authorize access="isAuthenticated()">
+    <h4>Создать свою последовательность:</h4>
+    <form:form method="POST" action="/collector/createProgression" modelAttribute="progressionForm"
+               id="progressionForm">
+
+        <% for (int i = 0; i < 4; i++) {%>
+        <div id="chordContainer">
+            <!-- Существующий выпадающий список выбора аккорда -->
+            <form:select name="select" path="chords">
+                <% for (Chord chord : chords) { %>
+                <form:option value="<%= chord.getId()%>"><%= chord.getName()%>
+                </form:option>
+                <%}%>
+            </form:select>
+        </div>
+        <% } %>
+        <input type="hidden" name="user" value="${user}"> </input>
+        <button type="submit">Создать последовательность</button>
+    </form:form>
+</sec:authorize>
+<a href="/">На главную</a>
 </body>
 </html>
+

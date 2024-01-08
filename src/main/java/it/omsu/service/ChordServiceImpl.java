@@ -1,7 +1,10 @@
 package it.omsu.service;
 
 import it.omsu.entity.Chord;
+import it.omsu.entity.Progression;
+import it.omsu.entity.User;
 import it.omsu.repository.ChordRepository;
+import it.omsu.repository.ProgressionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,9 +15,13 @@ public class ChordServiceImpl implements ChordService {
     private List<Chord> chords = new ArrayList<>();
     private ChordRepository chordRepository;
 
-    public ChordServiceImpl(ChordRepository chordRepository) {
+    private ProgressionRepository progressionRepository;
+
+    public ChordServiceImpl(ChordRepository chordRepository, ProgressionRepository progressionRepository) {
         this.chordRepository = chordRepository;
+        this.progressionRepository = progressionRepository;
     }
+
 
     @Override
     public void createChord(Chord chord) {
@@ -42,9 +49,24 @@ public class ChordServiceImpl implements ChordService {
         chordRepository.save(chord);
     }
 
+    /**
+     * Тут смотрим, если аккорд, коддорый мы удаляем есть в прогрессии, то
+     * мы удаляем эту прогрессию у всех пользователей, затем саму прогрессию, а потом и аккорд
+     * @param chordId -- id аккорда
+     * @return -- true если удаление прошло успешно
+     */
     @Override
     public boolean deleteChord(Long chordId) {
-        if (chordRepository.findById(chordId).isPresent()) {
+        if (chordRepository.existsById(chordId)) {
+            Chord chord = chordRepository.findById(chordId).get();
+            List<Progression> progressions = chord.getProgressions();
+            for (Progression progression : progressions) {
+
+                for (User user : progression.getUsers()) {
+                    user.getProgressions().remove(progression);
+                }
+                progressionRepository.delete(progression);
+            }
             chordRepository.deleteById(chordId);
             return true;
         }
