@@ -51,7 +51,6 @@
 
         <% for (int i = 0; i < 4; i++) {%>
         <div id="chordContainer">
-            <!-- Существующий выпадающий список выбора аккорда -->
             <form:select name="select" path="chords">
                 <% for (Chord chord : chords) { %>
                 <form:option value="<%= chord.getId()%>"><%= chord.getName()%>
@@ -60,7 +59,7 @@
             </form:select>
         </div>
         <% } %>
-        <input type="hidden" name="user" value="${user}"> </input>
+        <input type="hidden" name="user" value="${user}">
         <button type="submit">Создать последовательность</button>
     </form:form>
 </sec:authorize>

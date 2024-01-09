@@ -20,13 +20,12 @@ import java.util.List;
 public class ChordController {
     private ChordService chordService;
     private UserService userService;
-    private ProgressionService progressionService;
 
-    public ChordController(ChordService chordService, UserService userService, ProgressionService progressionService) {
+    public ChordController(ChordService chordService, UserService userService) {
         this.chordService = chordService;
         this.userService = userService;
-        this.progressionService = progressionService;
     }
+
 
     @PostMapping("/collector/create")
     public String createChord(@ModelAttribute("chordForm") @Valid Chord chordForm) {

@@ -1,7 +1,6 @@
 package it.omsu.controller;
 
-import it.omsu.entity.Progression;
-import it.omsu.entity.User;
+import it.omsu.entity.*;
 import it.omsu.service.ProgressionService;
 import it.omsu.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -30,6 +29,11 @@ public class ProfileController {
         Set<Progression> progressions = user.getProgressions();
         System.out.println("Progressions: " + progressions);
         model.addAttribute("progressions", progressions);
+        Guitar guitar = new AcousticGuitar();
+        NoteArray noteArray = new NoteArray();
+        for (int string : guitar.getOpenNotes()) {
+            System.out.println(noteArray.getNotes().get(string).getName());
+        }
 
         return "profile";
     }
