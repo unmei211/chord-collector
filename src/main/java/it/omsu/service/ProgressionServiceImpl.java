@@ -43,6 +43,7 @@ public class ProgressionServiceImpl implements ProgressionService {
         Progression progression = progressionRepository.findById(id).get();
         progression.setChords(chords);
         progressionRepository.save(progression);
+
     }
 
     @Override
