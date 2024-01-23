@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../resources/css/main.css">
     <meta charset="utf-8">
     <title>Log in with your account</title>
+    <style>
+        <%@include file="../resources/css/main.css"%>
+    </style>
 </head>
 <body>
 <div>

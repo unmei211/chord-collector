@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="../resources/css/main.css">
     <title> Chord Collector</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        <%@include file="../resources/css/main.css"%>
+    </style>
 </head>
 <body>
 <div>

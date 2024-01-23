@@ -11,6 +11,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
+    <style>
+        <%@include file="../resources/css/main.css"%>
+    </style>
 </head>
 <body>
 <h4>Ваша почта: </h4>

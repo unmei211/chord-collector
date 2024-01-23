@@ -16,10 +16,11 @@ public class Chord {
     @Size(min = 1, message = "Не меньше 1 знака")
     private String name;
 
-    //    @ManyToMany(mappedBy = "chords")
-//    private List<Progression> progression;
     @ManyToMany(mappedBy = "chords")
     private List<Progression> progressions;
+
+    @ElementCollection
+    private List<Integer> chordShape;
 
     public List<Progression> getProgressions() {
         return progressions;

@@ -5,6 +5,9 @@
     <link rel="stylesheet" href="../resources/css/main.css">
     <meta charset="UTF-8">
     <title>Create/Edit Chord</title>
+    <style>
+        <%@include file="../resources/css/main.css"%>
+    </style>
 </head>
 <body>
 <h1>Create/Edit Chord</h1>

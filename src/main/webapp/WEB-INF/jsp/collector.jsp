@@ -8,6 +8,10 @@
 <html>
 <head>
     <link rel="stylesheet" href="../resources/css/main.css">
+    <style>
+        <%@include file="../resources/css/main.css"%>
+        <%@include file="../resources/css/guitar.css"%>
+    </style>
     <meta charset="UTF-8">
     <title>Chords</title>
     <% List<Chord> chords = (List<Chord>) request.getAttribute("allChords"); %>
@@ -21,6 +25,21 @@
     </form:form>
     <form:errors path="name"></form:errors>
     ${nameError}
+
+    <div class="fretboard">
+        <div class = "frets">
+
+        </div>
+        <div class="fret" style="left: 25%;"></div>
+        <div class="fret" style="left: 50%;"></div>
+        <div class="fret" style="left: 75%;"></div>
+        <div class="fret" style="left: 100%;"></div>
+        <div class="strings">
+            <% for (int i = 0; i < 6; i++) { %>
+            <div class="string"></div>
+            <% } %>
+        </div>
+    </div>
 </sec:authorize>
 
 <%-- Таблица для отображения списка аккордов --%>
@@ -64,6 +83,7 @@
     </form:form>
 </sec:authorize>
 <a href="/">На главную</a>
+
 </body>
 </html>
 
