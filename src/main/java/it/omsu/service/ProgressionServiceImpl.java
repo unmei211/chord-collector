@@ -27,10 +27,7 @@ public class ProgressionServiceImpl implements ProgressionService {
 
     @Override
     public Progression getProgressionById(Long id) {
-        return progressions.stream()
-                .filter(progression -> progression.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        return progressionRepository.getOne(id);
     }
 
     @Override
@@ -39,11 +36,16 @@ public class ProgressionServiceImpl implements ProgressionService {
     }
 
     @Override
-    public void updateProgression(Long id, ArrayList<Chord> chords) {
+    public void updateProgressionByChords(Long id, ArrayList<Chord> chords) {
         Progression progression = progressionRepository.findById(id).get();
         progression.setChords(chords);
         progressionRepository.save(progression);
+    }
 
+    @Override
+    public void updateProgressionByTemplate(Long id, Progression progression) {
+        progression.setId(id);
+        progressionRepository.save(progression);
     }
 
     @Override

@@ -82,15 +82,6 @@
         <button type="submit">Создать последовательность</button>
     </form:form>
 </sec:authorize>
-
-<sec:authorize access="isAuthenticated()">
-    <h4>CHECK</h4>
-    <form:form method="post">
-        <input type="hidden" name="_method" value="patch"/>
-        <button type="submit">lets check</button>
-    </form:form>
-</sec:authorize>
-
 <a href="/">На главную</a>
 
 </body>

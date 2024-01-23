@@ -31,11 +31,15 @@
                     <button type="submit">Delete</button>
                 </form:form>
             </td>
+            <td>
+                <form:form action="/progression/editor/${progression.id}" method="GET">
+                    <button type="submit">Edit</button>
+                </form:form>
+            </td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
-
-<a href="/">На главную</a>
+<a href="<c:url value="/"/>">На главную</a>
 </body>
 </html>

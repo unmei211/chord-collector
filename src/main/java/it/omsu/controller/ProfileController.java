@@ -42,10 +42,9 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
-    @PatchMapping("/profile/updateProgression/{id}")
-    public String updateChord(@PathVariable Long id,
-                              @ModelAttribute("progression") @Valid Progression newProgression) {
-        Progression progression = progressionService.getProgressionById(id);
+    @PatchMapping("/profile/updateProgression")
+    public String updateChord() {
+        System.out.println("lol");
         return "redirect:/profile";
     }
 
