@@ -21,13 +21,14 @@
     <%-- Форма для создания аккорда --%>
     <form:form method="POST" action="/collector/create" modelAttribute="chordForm">
         <form:input type="text" path="name" placeholder="Name"></form:input>
+        <input type="hidden" name="user" value="${user}">
         <button type="submit">Создать аккорд</button>
     </form:form>
     <form:errors path="name"></form:errors>
     ${nameError}
 
     <div class="fretboard">
-        <div class = "frets">
+        <div class="frets">
 
         </div>
         <div class="fret" style="left: 25%;"></div>

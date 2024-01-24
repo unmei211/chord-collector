@@ -1,10 +1,14 @@
 package it.omsu.controller;
 
+import it.omsu.entity.Chord;
+import it.omsu.entity.User;
 import it.omsu.service.ChordService;
 import it.omsu.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 public class AdminController {
@@ -20,6 +24,8 @@ public class AdminController {
     public String userList(Model model) {
         model.addAttribute("allUsers", userService.allUsers());
         model.addAttribute("allChords", chordService.getAllChords());
+        model.addAttribute("publicChords", chordService.getPublicChords());
+        model.addAttribute("chordForm", new Chord());
         return "admin";
     }
 
@@ -48,5 +54,16 @@ public class AdminController {
     public String gtUser(@PathVariable("userId") Long userId, Model model) {
         model.addAttribute("allUsers", userService.usergtList(userId));
         return "admin";
+    }
+
+    @PostMapping("/admin/createChord")
+    public String createPublicChord(@ModelAttribute("chordForm") @Valid Chord chordForm) {
+        Long userID = userService.getCurrentUserById();
+        System.out.println(userID);
+        User user = userService.findUserById(userID);
+        chordForm.setUser(user);
+        chordForm.setPublic(true);
+        chordService.createChord(chordForm);
+        return "redirect:/admin";
     }
 }

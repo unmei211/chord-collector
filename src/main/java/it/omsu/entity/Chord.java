@@ -22,6 +22,32 @@ public class Chord {
     @ElementCollection
     private List<Integer> chordShape;
 
+    @Column
+    private Boolean isPublic;
+
+    public void setProgressions(List<Progression> progressions) {
+        this.progressions = progressions;
+    }
+
+    public void setPublic(Boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Boolean getPublic() {
+        return isPublic;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    @ManyToOne
+    private User user;
+
     public List<Progression> getProgressions() {
         return progressions;
     }

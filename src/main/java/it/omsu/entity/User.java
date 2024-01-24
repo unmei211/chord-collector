@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,9 +28,25 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Progression> progressions;
 
+    @OneToMany(mappedBy = "user")
+    private List<Chord> chords;
+
+    public void setProgressions(Set<Progression> progressions) {
+        this.progressions = progressions;
+    }
+
+    public void setChords(List<Chord> chords) {
+        this.chords = chords;
+    }
+
+    public List<Chord> getChords() {
+        return chords;
+    }
+
     public User() {
 
     }
+
     public Set<Progression> getProgressions() {
         return progressions;
     }

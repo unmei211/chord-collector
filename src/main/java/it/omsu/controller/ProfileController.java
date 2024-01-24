@@ -28,11 +28,6 @@ public class ProfileController {
         Set<Progression> progressions = user.getProgressions();
         System.out.println("Progressions: " + progressions);
         model.addAttribute("progressions", progressions);
-        Guitar guitar = new AcousticGuitar();
-        NoteArray noteArray = new NoteArray();
-        for (int string : guitar.getOpenNotes()) {
-            System.out.println(noteArray.getNotes().get(string).getName());
-        }
         return "profile";
     }
 

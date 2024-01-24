@@ -8,6 +8,8 @@ public interface ChordService {
     void createChord(Chord chord);
     Chord getChordById(Long id);
     List<Chord> getAllChords();
+
+    List<Chord> getPublicChords();
     void updateChord(Long chord, String str);
     boolean deleteChord(Long id);
 }
