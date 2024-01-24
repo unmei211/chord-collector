@@ -2,19 +2,13 @@ package it.omsu.controller;
 
 import it.omsu.entity.Chord;
 import it.omsu.entity.Progression;
-import it.omsu.entity.User;
 import it.omsu.service.ChordService;
-import it.omsu.service.ChordServiceImpl;
-import it.omsu.service.ProgressionService;
 import it.omsu.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
-import java.util.List;
 
 @Controller
 public class ChordController {

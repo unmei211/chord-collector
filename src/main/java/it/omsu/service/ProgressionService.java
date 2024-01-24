@@ -14,7 +14,8 @@ public interface ProgressionService {
 
     List<Progression> getAllProgressions();
 
-    void updateProgression(Long id, ArrayList<Chord> chords);
+    void updateProgressionByChords(Long id, ArrayList<Chord> chords);
+    void updateProgressionByTemplate(Long id, Progression progression);
 
     boolean deleteProgression(Long id);
 }
