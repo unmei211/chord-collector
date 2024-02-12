@@ -1,5 +1,6 @@
 package it.omsu.controller;
 
+import it.omsu.entity.Chord;
 import it.omsu.entity.Progression;
 import it.omsu.entity.User;
 import it.omsu.service.ChordService;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class ProgressionController {
@@ -42,10 +44,16 @@ public class ProgressionController {
             @PathVariable("id") Long progressionId,
             Model model
     ) {
+        Long userID = userService.getCurrentUserById();
+        List<Chord> chords = chordService.getPublicChords();
+        if (userID != null) {
+            User user = userService.findUserById(userID);
+            chords.addAll(user.getChords());
+        }
         Progression progression = progressionService.getProgressionById(progressionId);
         model.addAttribute("progression", progression);
         model.addAttribute("progressionId", progressionId);
-        model.addAttribute("availableChords", chordService.getAllChords());
+        model.addAttribute("availableChords", chords);
         return "progression/editor";
     }
 

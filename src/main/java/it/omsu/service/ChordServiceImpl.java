@@ -58,6 +58,7 @@ public class ChordServiceImpl implements ChordService {
         return chordRepository.findByIsPublicTrue();
     }
 
+
     /**
      * Тут смотрим, если аккорд, коддорый мы удаляем есть в прогрессии, то
      * мы удаляем эту прогрессию у всех пользователей, затем саму прогрессию, а потом и аккорд
