@@ -1,5 +1,8 @@
 package it.omsu.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -8,6 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "chords")
+@Getter
+@Setter
 public class Chord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,48 +30,6 @@ public class Chord {
     @Column
     private Boolean isPublic;
 
-    public void setProgressions(List<Progression> progressions) {
-        this.progressions = progressions;
-    }
-
-    public void setPublic(Boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Boolean getPublic() {
-        return isPublic;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
     @ManyToOne
     private User user;
-
-    public List<Progression> getProgressions() {
-        return progressions;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
 }

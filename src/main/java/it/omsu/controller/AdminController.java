@@ -62,7 +62,7 @@ public class AdminController {
         System.out.println(userID);
         User user = userService.findUserById(userID);
         chordForm.setUser(user);
-        chordForm.setPublic(true);
+        chordForm.setIsPublic(true);
         chordService.createChord(chordForm);
         return "redirect:/admin";
     }

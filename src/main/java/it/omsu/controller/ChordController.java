@@ -10,7 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class ChordController {
@@ -27,7 +31,7 @@ public class ChordController {
     public String createChord(@ModelAttribute("chordForm") @Valid Chord chordForm, @RequestParam("user") Long userId) {
         User user = userService.findUserById(userId);
         chordForm.setUser(user);
-        chordForm.setPublic(false);
+        chordForm.setIsPublic(false);
         chordService.createChord(chordForm);
         return "redirect:/collector";
     }
@@ -40,6 +44,8 @@ public class ChordController {
         if (userID != null) {
             User user = userService.findUserById(userID);
             chords.addAll(user.getChords());
+            Set<Chord> set = new HashSet<Chord>(chords);
+            chords = set.stream().distinct().collect(Collectors.toList());
         }
         model.addAttribute("allChords", chords);
         model.addAttribute("user", userID);
@@ -47,5 +53,4 @@ public class ChordController {
         model.addAttribute("chordForm", new Chord());
         return "collector";
     }
-
 }
