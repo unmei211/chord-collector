@@ -16,6 +16,7 @@
 <sec:authorize access="isAuthenticated()">
     <% response.sendRedirect("/"); %>
 </sec:authorize>
+
 <div>
     <form method="POST" action="/login">
         <h2>Вход на сайт</h2>
