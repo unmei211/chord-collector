@@ -6,11 +6,12 @@ import it.omsu.entity.User;
 import it.omsu.service.ChordService;
 import it.omsu.service.ProgressionService;
 import it.omsu.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.util.List;
 
 @Controller

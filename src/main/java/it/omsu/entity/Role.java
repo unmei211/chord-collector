@@ -1,10 +1,11 @@
 package it.omsu.entity;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -12,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class Role implements GrantedAuthority {
+//public class Role {
     @Id
     private Long id;
     private String name;
