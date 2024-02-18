@@ -5,6 +5,9 @@ import it.omsu.entity.Progression;
 import it.omsu.entity.User;
 import it.omsu.repository.ChordRepository;
 import it.omsu.repository.ProgressionRepository;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import java.util.List;
 
 @Service
 public class ChordServiceImpl implements ChordService {
+    private SessionFactory sessionFactory;
     private List<Chord> chords = new ArrayList<>();
     private ChordRepository chordRepository;
 
@@ -49,9 +53,16 @@ public class ChordServiceImpl implements ChordService {
         chordRepository.save(chord);
     }
 
+    @Override
+    public List<Chord> getPublicChords() {
+        return chordRepository.findByIsPublicTrue();
+    }
+
+
     /**
      * Тут смотрим, если аккорд, коддорый мы удаляем есть в прогрессии, то
      * мы удаляем эту прогрессию у всех пользователей, затем саму прогрессию, а потом и аккорд
+     *
      * @param chordId -- id аккорда
      * @return -- true если удаление прошло успешно
      */
@@ -72,4 +83,6 @@ public class ChordServiceImpl implements ChordService {
         }
         return false;
     }
+
+
 }

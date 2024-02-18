@@ -1,5 +1,8 @@
 package it.omsu.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,6 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "progressions")
+@Getter
+@Setter
 public class Progression {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,26 +27,6 @@ public class Progression {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Chord> chords;
-
-    public List<Chord> getChords() {
-        return chords;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setChords(List<Chord> chords) {
-        this.chords = chords;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
 
     public void addUser(User user) {
         users.add(user);

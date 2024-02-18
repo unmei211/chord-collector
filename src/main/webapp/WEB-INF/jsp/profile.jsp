@@ -11,27 +11,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
+    <style>
+        <%@include file="../resources/css/main.css"%>
+    </style>
 </head>
 <body>
 <h4>Ваша почта: </h4>
 <h4>Ваши сохраненные последовательности:</h4>
 <table>
     <tbody>
-    <% Set<Progression> progressions = (Set<Progression>) request.getAttribute("progressions"); %>
-    <% for (Progression progression : progressions) { %>
-    <td><% for (Chord chord : progression.getChords()) { %>
-        <%=chord.getName() %>
-        <% } %>
-    </td>
-    <td>
-        <form action="/profile/deleteProgression/<%= progression.getId() %>" method="POST">
-            <button type="submit">Delete</button>
-        </form>
-    </td>
-    </tr>
-    <% } %>
+    <c:forEach var="progression" items="${progressions}">
+        <tr>
+            <td><c:forEach var="chord" items="${progression.chords}">
+                ${chord.name}
+            </c:forEach></td>
+
+            <td>
+                <form:form action="/profile/deleteProgression/${progression.id}">
+                    <button type="submit">Delete</button>
+                </form:form>
+            </td>
+            <td>
+                <form:form action="/progression/editor/${progression.id}" method="GET">
+                    <button type="submit">Edit</button>
+                </form:form>
+            </td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
-<a href="/">На главную</a>
+<a href="<c:url value="/"/>">На главную</a>
 </body>
 </html>

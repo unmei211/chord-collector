@@ -1,5 +1,8 @@
 package it.omsu.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -8,6 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "chords")
+@Getter
+@Setter
 public class Chord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,30 +21,15 @@ public class Chord {
     @Size(min = 1, message = "Не меньше 1 знака")
     private String name;
 
-    //    @ManyToMany(mappedBy = "chords")
-//    private List<Progression> progression;
     @ManyToMany(mappedBy = "chords")
     private List<Progression> progressions;
 
-    public List<Progression> getProgressions() {
-        return progressions;
-    }
+    @ElementCollection
+    private List<Integer> chordShape;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column
+    private Boolean isPublic;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
+    @ManyToOne
+    private User user;
 }

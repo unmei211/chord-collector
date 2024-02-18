@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../resources/css/main.css">
     <meta charset="utf-8">
     <title>Log in with your account</title>
+    <style>
+        <%@include file="../resources/css/main.css"%>
+    </style>
 </head>
 <body>
 <div>
@@ -46,7 +49,7 @@
         </tr>
         </thead>
         <tbody>
-        <% List<Chord> chords = (List<Chord>) request.getAttribute("allChords"); %>
+        <% List<Chord> chords = (List<Chord>) request.getAttribute("publicChords"); %>
         <%-- Цикл для перебора и отображения аккордов --%>
         <% for (Chord chord : chords) { %>
         <tr>
@@ -72,6 +75,14 @@
         </tbody>
     </table>
     <% } %>
+    <h2> Создать публичный аккорд</h2>
+    <form:form method="POST" action="/admin/createChord" modelAttribute="chordForm">
+        <form:input type="text" path="name" placeholder="Name"></form:input>
+        <button type="submit">Создать публичный аккорд</button>
+    </form:form>
+    <form:errors path="name"></form:errors>
+    ${nameError}
+
     <a href="/">Главная</a>
 </div>
 </body>
