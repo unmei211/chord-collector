@@ -57,14 +57,11 @@
     <h4>Создать свою последовательность:</h4>
     <form method="POST" action="/collector/createProgression" th:object="${progressionForm}"
           id="progressionForm">
-
+        <label for="select">Выберите аккорд:</label>
         <div th:each="i : ${#numbers.sequence(1,4)}">
             <div id="chordContainer">
-                <select name="select" path="chords">
-                    <% for (Chord chord : chords) { %>
-                    <option value="<%= chord.getId()%>"><%= chord.getName()%>
-                    </option>
-                    <%}%>
+                <select name="select" th:field="*{chords}">
+                    <option th:each="chord : ${chords}" th:value="${chord.id}" th:text="${chord.name}"></option>
                 </select>
             </div>
         </div>
