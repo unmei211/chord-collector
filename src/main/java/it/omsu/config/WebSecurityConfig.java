@@ -1,96 +1,84 @@
 package it.omsu.config;
 
-import it.omsu.service.UserService;
-import jakarta.servlet.DispatcherType;
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.security.config.Customizer.withDefaults;
+import java.net.URI;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
+import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(
+        securedEnabled = true,
+        jsr250Enabled = true
+)
 public class WebSecurityConfig {
-    @Autowired
-    UserService userService;
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public WebSecurityConfig(BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
-
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 
     @Bean
-    public SecurityFilterChain resourceServerFilterChain(HttpSecurity http)  throws Exception {
-        http
-                .authorizeHttpRequests(
-                        (authorize) -> authorize
-                                .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-                                .requestMatchers("/**").permitAll()
-                                .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(login -> login
-                        .loginPage("/login").permitAll());
-        return http.build();
+    public SecurityFilterChain filterChain(HttpSecurity http, OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler) throws Exception {
+        return http.authorizeHttpRequests(authorise ->
+                        authorise
+                                .requestMatchers("/static/**")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated())
+                .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(authorise -> authorise.accessDeniedPage("/access-denied"))
+                .oauth2Login(withDefaults())
+                .logout(logout ->
+                        logout.logoutSuccessHandler(oidcLogoutSuccessHandler)).build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("USER")
-                        .build();
+    @SuppressWarnings("unchecked")
+    public GrantedAuthoritiesMapper userAuthoritiesMapper() {
 
-        return new InMemoryUserDetailsManager(user);
+        return (authorities) -> {
+            Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
+            authorities.forEach(authority -> {
+                if (authority instanceof OidcUserAuthority oidcUserAuthority) {
+                    OidcUserInfo userInfo = oidcUserAuthority.getUserInfo();
+                    Map<String, Object> realmAccess = userInfo.getClaim("realm_access");
+                    Collection<String> realmRoles;
+                    if (realmAccess != null
+                            && (realmRoles = (Collection<String>) realmAccess.get("roles")) != null) {
+                        realmRoles
+                                .forEach(role -> mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
+                    }
+                }
+            });
+            return mappedAuthorities;
+        };
     }
 
-//    @Override
-//    protected void configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity
-//                .csrf()
-//                .disable()
-//                .authorizeRequests()
-//
-//                .antMatchers("/registration").not().fullyAuthenticated()
-//
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//
-//                .antMatchers("/", "/resources/**", "/collector/**").permitAll()
-//
-//                .anyRequest().authenticated()
-//                .and()
-//
-//                .formLogin()
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/collector")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll()
-//                .logoutSuccessUrl("/collector");
-//    }
-
-    @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+    @Bean
+    OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler(ClientRegistrationRepository clientRegistrationRepository) {
+        OidcClientInitiatedLogoutSuccessHandler successHandler = new OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository);
+        successHandler.setPostLogoutRedirectUri(URI.create("http://localhost:8000").toString());
+        return successHandler;
     }
+
+    @Bean
+    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
+    }
+
 }
