@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chords</title>
+</head>
+<body>
+<sec:authorize access="isAuthenticated()">
+    <%-- Форма для создания аккорда --%>
+    <form method="POST" action="/collector/create" th:object="${chordForm}">
+        <form:input type="text" th:field="*{name}" placeholder="Name"></form:input>
+        <input type="hidden" name="user" th:value="${user}">
+        <button type="submit">Создать аккорд</button>
+    </form>
+
+    <div class="fretboard">
+        <div class="frets">
+
+        </div>
+        <div class="fret" style="left: 25%;"></div>
+        <div class="fret" style="left: 50%;"></div>
+        <div class="fret" style="left: 75%;"></div>
+        <div class="fret" style="left: 100%;"></div>
+        <div class="strings">
+            <% for (int i = 0; i < 6; i++) { %>
+            <div class="string"></div>
+            <% } %>
+        </div>
+    </div>
+</sec:authorize>
+
+<%-- Таблица для отображения списка аккордов --%>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="chord : ${allChords}">
+        <tr>
+            <td>
+                <th:block th:text="${chord.getId()}"></th:block>
+            </td>
+            <td>
+                <th:block th:text="${chord.getName()()}"></th:block>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+<sec:authorize access="isAuthenticated()">
+    <h4>Создать свою последовательность:</h4>
+    <form method="POST" action="/collector/createProgression" th:object="${progressionForm}"
+          id="progressionForm">
+
+        <div th:each="i : ${#numbers.sequence(1,4)}">
+            <div id="chordContainer">
+                <select name="select" path="chords">
+                    <% for (Chord chord : chords) { %>
+                    <option value="<%= chord.getId()%>"><%= chord.getName()%>
+                    </option>
+                    <%}%>
+                </select>
+            </div>
+        </div>
+        <% } %>
+        <input type="hidden" name="user" value="${user}">
+        <button type="submit">Создать последовательность</button>
+    </form>
+</sec:authorize>
+<a href="/">На главную</a>
+
+</body>
+</html>
+

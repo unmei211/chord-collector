@@ -28,7 +28,6 @@ public class MyController {
         model.addAttribute("username", principal.getName());
         return "user";
     }
-
     @GetMapping("/create")
     public String createUser() {
         return "create-user";
