@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <style>
+    </style>
+</head>
+<body>
+<h4>Ваша почта: </h4>
+<h4>Ваши сохраненные последовательности:</h4>
+<table>
+    <tbody>
+    <th:block th:each="progression : ${progressions}">
+        <tr>
+            <td>
+                <th:block th:each="chord: ${progression.chords}">
+                    <th:block th:text="${chord.name}">
+                    </th:block>
+                </th:block>
+            </td>
+
+            <td>
+                <form action="/profile/deleteProgression/${progression.id}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+            <td>
+                <form action="/progression/editor/${progression.id}" method="GET">
+                    <button type="submit">Edit</button>
+                </form>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+<a href="index.html">На главную</a>
+</body>
+</html>

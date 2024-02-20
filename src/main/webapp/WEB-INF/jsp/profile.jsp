@@ -1,7 +1,3 @@
-<%@ page import="it.omsu.entity.Chord" %>
-<%@ page import="java.util.List" %>
-<%@ page import="it.omsu.entity.Progression" %>
-<%@ page import="java.util.Set" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

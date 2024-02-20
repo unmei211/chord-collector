@@ -1,17 +1,9 @@
-<%@ page import="it.omsu.entity.Chord" %>
-<%@ page import="java.util.List" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" href="../resources/css/main.css">
-    <style>
-        <%@include file="../resources/css/main.css"%>
-        <%@include file="../resources/css/guitar.css"%>
-    </style>
+
     <meta charset="UTF-8">
     <title>Chords</title>
     <% List<Chord> chords = (List<Chord>) request.getAttribute("allChords"); %>

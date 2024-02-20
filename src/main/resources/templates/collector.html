@@ -8,30 +8,13 @@
 </head>
 <body>
 <sec:authorize access="isAuthenticated()">
-    <%-- Форма для создания аккорда --%>
     <form method="POST" action="/collector/create" th:object="${chordForm}">
-        <form:input type="text" th:field="*{name}" placeholder="Name"></form:input>
+        <input type="text" th:field="*{name}" placeholder="Name">
         <input type="hidden" name="user" th:value="${user}">
         <button type="submit">Создать аккорд</button>
     </form>
-
-    <div class="fretboard">
-        <div class="frets">
-
-        </div>
-        <div class="fret" style="left: 25%;"></div>
-        <div class="fret" style="left: 50%;"></div>
-        <div class="fret" style="left: 75%;"></div>
-        <div class="fret" style="left: 100%;"></div>
-        <div class="strings">
-            <% for (int i = 0; i < 6; i++) { %>
-            <div class="string"></div>
-            <% } %>
-        </div>
-    </div>
 </sec:authorize>
 
-<%-- Таблица для отображения списка аккордов --%>
 <table>
     <thead>
     <tr>
@@ -57,15 +40,13 @@
     <h4>Создать свою последовательность:</h4>
     <form method="POST" action="/collector/createProgression" th:object="${progressionForm}"
           id="progressionForm">
-        <label for="select">Выберите аккорд:</label>
         <div th:each="i : ${#numbers.sequence(1,4)}">
             <div id="chordContainer">
                 <select name="select" th:field="*{chords}">
-                    <option th:each="chord : ${chords}" th:value="${chord.id}" th:text="${chord.name}"></option>
+                    <option th:each="chord : ${allChords}" th:value="${chord.id}" th:text="${chord.name}"></option>
                 </select>
             </div>
         </div>
-        <% } %>
         <input type="hidden" name="user" value="${user}">
         <button type="submit">Создать последовательность</button>
     </form>
