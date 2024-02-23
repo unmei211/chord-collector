@@ -14,7 +14,6 @@
         <button type="submit">Создать аккорд</button>
     </form>
 </sec:authorize>
-
 <table>
     <thead>
     <tr>
@@ -29,7 +28,7 @@
                 <th:block th:text="${chord.getId()}"></th:block>
             </td>
             <td>
-                <th:block th:text="${chord.getName()()}"></th:block>
+                <th:block th:text="${chord.getName()}"></th:block>
             </td>
         </tr>
     </th:block>

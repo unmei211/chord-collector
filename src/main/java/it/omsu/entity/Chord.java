@@ -27,7 +27,6 @@ public class Chord {
 
     @Column
     private Boolean isPublic;
-
     @ManyToOne
-    private User user;
+    private User chordUser;
 }

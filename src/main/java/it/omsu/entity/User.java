@@ -5,24 +5,25 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
 
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.time.Instant;
+import java.util.*;
 
 @Entity
 @Table(name = "t_user")
 @Getter
 @Setter
-public class User implements UserDetails {
-//public class User {
+public class User  implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
     @Size(min = 2, message = "Не меньше 5 знаков")
     private String username;
     @Size(min = 2, message = "Не меньше 5 знаков")
@@ -35,11 +36,27 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Progression> progressions;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "chordUser")
     private List<Chord> chords;
 
-    public User() {
+    public User () {
+        final DefaultOidcUser user = (DefaultOidcUser) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
 
+        String userId = "";
+        this.username = user.getName();
+        OidcIdToken token = user.getIdToken();
+
+        Map<String, Object> customClaims = token.getClaims();
+
+        if (customClaims.containsKey("user_id")) {
+            userId = String.valueOf(customClaims.get("user_id"));
+        }
+
+        id = userId;
+        chords = new ArrayList<>();
+        progressions = new HashSet<>();
     }
 
     @Override

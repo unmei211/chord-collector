@@ -1,5 +1,6 @@
 package it.omsu.service;
 
+import it.omsu.entity.Chord;
 import it.omsu.entity.Role;
 import it.omsu.entity.User;
 import it.omsu.repository.RoleRepository;
@@ -14,10 +15,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -46,7 +50,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User findUserById(Long userId) {
+    public User findUserById(String userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
     }
@@ -68,9 +72,10 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public boolean deleteUser(Long userId) {
+    public boolean deleteUser(String userId) {
         if (userRepository.findById(userId).isPresent()) {
-            userRepository.deleteById(userId);
+            User user = userRepository.findById(userId).get();
+            userRepository.delete(user);
             return true;
         }
         return false;
@@ -81,14 +86,33 @@ public class UserService implements UserDetailsService {
                 .setParameter("paramId", idMin).getResultList();
     }
 
-    public Long getCurrentUserById() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username);
-        if (user != null) {
-            return user.getId();
-        }
+    public String getUserId() {
+        final DefaultOidcUser user = (DefaultOidcUser) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-        return null;
+        String userId = "";
+
+        OidcIdToken token = user.getIdToken();
+
+        Map<String, Object> customClaims = token.getClaims();
+
+        if (customClaims.containsKey("user_id")) {
+            userId = String.valueOf(customClaims.get("user_id"));
+        }
+        return userId;
     }
+
+    public List<Chord> getChords(String userId) {
+        return em.createQuery("SELECT c FROM Chord c WHERE c.chordUser.id = :userId", Chord.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
+    public User getCurrentUser() {
+
+        String userId = getUserId();
+        return userRepository.findById(userId).orElse(null);
+    }
+
 }

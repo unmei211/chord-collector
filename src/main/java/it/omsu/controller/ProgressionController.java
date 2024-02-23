@@ -31,9 +31,8 @@ public class ProgressionController {
     }
 
     @PostMapping("/collector/createProgression")
-    public String createChordProgression(@ModelAttribute("progressionForm") @Valid Progression progressionForm,
-                                         @RequestParam("user") Long userId) {
-        User user = userService.findUserById(userId);
+    public String createChordProgression(@ModelAttribute("progressionForm") @Valid Progression progressionForm) {
+        User user = userService.getCurrentUser();
         progressionForm.addUser(user);
         progressionService.createProgression(progressionForm);
 
@@ -45,11 +44,10 @@ public class ProgressionController {
             @PathVariable("id") Long progressionId,
             Model model
     ) {
-        Long userID = userService.getCurrentUserById();
+        String userID = userService.getUserId();
         List<Chord> chords = chordService.getPublicChords();
         if (userID != null) {
-            User user = userService.findUserById(userID);
-            chords.addAll(user.getChords());
+            chords.addAll(userService.getChords(userID));
         }
         Progression progression = progressionService.getProgressionById(progressionId);
         model.addAttribute("progression", progression);
@@ -65,6 +63,7 @@ public class ProgressionController {
         progressionService.updateProgressionByTemplate(progression.getId(), progression);
         return "redirect:/profile";
     }
+    
 }
 
 
