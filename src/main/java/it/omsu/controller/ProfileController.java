@@ -22,7 +22,6 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String showProfile(Model model) {
-        System.out.println("LOLOL");
         String id = userService.getUserId();
         User user = userService.findUserById(id);
         Set<Progression> progressions = user.getProgressions();
@@ -33,7 +32,6 @@ public class ProfileController {
 
     @PostMapping("/profile/deleteProgression/{id}")
     public String deleteProgression(@PathVariable Long id) {
-        System.out.println("DELETE");
         progressionService.deleteProgression(id);
         return "redirect:/profile";
     }

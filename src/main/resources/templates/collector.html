@@ -30,6 +30,11 @@
             <td>
                 <th:block th:text="${chord.getName()}"></th:block>
             </td>
+            <td>
+                <form th:action="@{'/collector/delete/' + ${chord.id}}" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
     </th:block>
     </tbody>

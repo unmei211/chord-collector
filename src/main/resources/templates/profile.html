@@ -23,12 +23,12 @@
             </td>
 
             <td>
-                <form action="/profile/deleteProgression/{progression.id}" method="POST">
+                <form method="POST" th:action="@{/profile/deleteProgression/{id}(id=${progression.id})}">
                     <button type="submit">Delete</button>
                 </form>
             </td>
             <td>
-                <form action="/progression/editor/${progression.id}" method="GET">
+                <form th:action="@{/progression/editor/{id}(id=${progression.id})}" method="GET">
                     <button type="submit">Edit</button>
                 </form>
             </td>

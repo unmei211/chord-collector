@@ -29,4 +29,5 @@ public class Chord {
     private Boolean isPublic;
     @ManyToOne
     private User chordUser;
+
 }

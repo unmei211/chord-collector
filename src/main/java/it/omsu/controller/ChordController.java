@@ -69,4 +69,10 @@ public class ChordController {
         model.addAttribute("chordForm", new Chord());
         return "collector";
     }
+
+    @PostMapping("/collector/delete/{id}")
+    public String deleteChord(@PathVariable Long id) {
+        chordService.deleteChord(id);
+        return "redirect:/collector";
+    }
 }

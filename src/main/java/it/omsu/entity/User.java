@@ -45,7 +45,7 @@ public class User  implements UserDetails {
                 .getPrincipal();
 
         String userId = "";
-        this.username = user.getName();
+        username = user.getName();
         OidcIdToken token = user.getIdToken();
 
         Map<String, Object> customClaims = token.getClaims();
