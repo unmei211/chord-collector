@@ -1,38 +1,34 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
-<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="">
+
 <head>
     <meta charset="UTF-8">
     <title>Chords</title>
 </head>
+
 <body>
-<sec:authorize access="isAuthenticated()">
-    <%-- Форма для создания аккорда --%>
-    <form method="POST" action="/collector/create" th:object="${chordForm}">
-        <form:input type="text" th:field="*{name}" placeholder="Name"></form:input>
-        <input type="hidden" name="user" th:value="${user}">
+<div sec:authorize="isAuthenticated()">
+    <form method="POST" action="/collector/create">
+        <input type="text" name="name" placeholder="Название аккорда">
+        <input type="hidden" name="userId" th:value="${userID}">
         <button type="submit">Создать аккорд</button>
     </form>
 
-    <div class="fretboard">
-        <div class="frets">
 
-        </div>
+    <div class="fretboard">
+        <div class="frets"></div>
         <div class="fret" style="left: 25%;"></div>
         <div class="fret" style="left: 50%;"></div>
         <div class="fret" style="left: 75%;"></div>
         <div class="fret" style="left: 100%;"></div>
         <div class="strings">
-            <% for (int i = 0; i < 6; i++) { %>
-            <div class="string"></div>
-            <% } %>
+            <div class="string" th:each="i : ${#numbers.sequence(0,5)}"></div>
         </div>
     </div>
-</sec:authorize>
+</div>
 
-<%-- Таблица для отображения списка аккордов --%>
-<table>
+<!-- Таблица для отображения списка аккордов -->
+<table sec:authorize="isAuthenticated()">
     <thead>
     <tr>
         <th>ID</th>
@@ -40,37 +36,30 @@
     </tr>
     </thead>
     <tbody>
-    <th:block th:each="chord : ${allChords}">
-        <tr>
-            <td>
-                <th:block th:text="${chord.getId()}"></th:block>
-            </td>
-            <td>
-                <th:block th:text="${chord.getName()()}"></th:block>
-            </td>
-        </tr>
-    </th:block>
+    <tr th:each="chord : ${allChords}">
+        <td th:text="${chord.getId()
+        }"></td>
+        <td th:text="${chord.getName()}"></td>
+    </tr>
     </tbody>
 </table>
 
-<sec:authorize access="isAuthenticated()">
+<div sec:authorize="isAuthenticated()">
     <h4>Создать свою последовательность:</h4>
-    <form method="POST" action="/collector/createProgression" th:object="${progressionForm}"
-          id="progressionForm">
+    <form method="POST" th:action="@{/collector/createProgression}" th:object="${progressionForm}" id="progressionForm">
         <div th:each="i : ${#numbers.sequence(1,4)}">
             <div id="chordContainer">
-                <select name="select" th:field="*{chords}">
-                    <option th:each="chord : ${chords}" th:value="${chord.id}" th:text="${chord.name}"></option>
+                <select name="chords" th:field="*{chords}">
+                    <option th:each="chord : ${allChords}" th:value="${chord.id}" th:text="${chord.name}"></option>
                 </select>
             </div>
         </div>
-        <% } %>
-        <input type="hidden" name="user" value="${user}">
+        <input type="hidden" name="user" th:value="${userID}">
         <button type="submit">Создать последовательность</button>
     </form>
-</sec:authorize>
+
+</div>
 <a href="/">На главную</a>
-
 </body>
-</html>
 
+</html>

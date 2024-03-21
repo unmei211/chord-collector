@@ -23,7 +23,7 @@ public class ProfileController {
     @GetMapping("/profile")
     public String showProfile(Model model) {
         System.out.println("LOLOL");
-        Long id = userService.getCurrentUserById();
+        String id = userService.getCurrentUserById();
         User user = userService.findUserById(id);
         Set<Progression> progressions = user.getProgressions();
         System.out.println("Progressions: " + progressions);

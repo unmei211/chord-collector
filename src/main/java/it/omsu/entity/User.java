@@ -21,11 +21,8 @@ import java.util.Set;
 public class User implements UserDetails {
 //public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Size(min = 2, message = "Не меньше 5 знаков")
+    private String id;
     private String username;
-    @Size(min = 2, message = "Не меньше 5 знаков")
     private String password;
     @Transient
     private String passwordConfirm;

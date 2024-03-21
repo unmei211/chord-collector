@@ -18,7 +18,6 @@ public class Chord {
 
     @Size(min = 1, message = "Не меньше 1 знака")
     private String name;
-
     @ManyToMany(mappedBy = "chords")
     private List<Progression> progressions;
 

@@ -5,13 +5,18 @@ import it.omsu.entity.Progression;
 import it.omsu.entity.User;
 import it.omsu.service.ChordService;
 import it.omsu.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,29 +32,37 @@ public class ChordController {
 
 
     @PostMapping("/collector/create")
-    public String createChord(@ModelAttribute("chordForm") @Valid Chord chordForm, @RequestParam("user") Long userId) {
+    public String createChord(@RequestParam String name, @RequestParam String userId) {
         User user = userService.findUserById(userId);
-        chordForm.setUser(user);
-        chordForm.setIsPublic(false);
-        chordService.createChord(chordForm);
+        Chord chord = new Chord();
+        chord.setName(name);
+        chord.setUser(user);
+        chord.setIsPublic(false);
+        chordService.createChord(chord);
         return "redirect:/collector";
     }
 
     @GetMapping("/collector")
     public String getAllChords(Model model) {
-        Long userID = userService.getCurrentUserById();
 
         List<Chord> chords = chordService.getPublicChords();
-        if (userID != null) {
-            User user = userService.findUserById(userID);
-            chords.addAll(user.getChords());
-            Set<Chord> set = new HashSet<Chord>(chords);
-            chords = set.stream().distinct().collect(Collectors.toList());
+
+        String userId = userService.getCurrentUserById();
+        if (userService.findUserById(userId) == null) {
+            User newUser = new User();
+            newUser.setId(userId);
+            userService.saveUser(newUser);
+        }
+        chords.addAll(userService.getUserChords(userId)
+        );
+        for (Chord chord : chords) {
+            System.out.println(chord.getName());
         }
         model.addAttribute("allChords", chords);
-        model.addAttribute("user", userID);
+        model.addAttribute("userID", userId);
         model.addAttribute("progressionForm", new Progression());
         model.addAttribute("chordForm", new Chord());
         return "collector";
     }
+
 }
