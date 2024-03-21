@@ -1,13 +1,15 @@
 package it.omsu.entity;
 
-import jdk.jfr.Enabled;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -17,12 +19,10 @@ import java.util.Set;
 @Getter
 @Setter
 public class User implements UserDetails {
+//public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Size(min = 2, message = "Не меньше 5 знаков")
+    private String id;
     private String username;
-    @Size(min = 2, message = "Не меньше 5 знаков")
     private String password;
     @Transient
     private String passwordConfirm;

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chords</title>
+</head>
+
+<body>
+<div sec:authorize="isAuthenticated()">
+    <form method="POST" action="/collector/create">
+        <input type="text" name="name" placeholder="Название аккорда">
+        <input type="hidden" name="userId" th:value="${userID}">
+        <button type="submit">Создать аккорд</button>
+    </form>
+
+
+    <div class="fretboard">
+        <div class="frets"></div>
+        <div class="fret" style="left: 25%;"></div>
+        <div class="fret" style="left: 50%;"></div>
+        <div class="fret" style="left: 75%;"></div>
+        <div class="fret" style="left: 100%;"></div>
+        <div class="strings">
+            <div class="string" th:each="i : ${#numbers.sequence(0,5)}"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Таблица для отображения списка аккордов -->
+<table sec:authorize="isAuthenticated()">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="chord : ${allChords}">
+        <td th:text="${chord.getId()
+        }"></td>
+        <td th:text="${chord.getName()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div sec:authorize="isAuthenticated()">
+    <h4>Создать свою последовательность:</h4>
+    <form method="POST" th:action="@{/collector/createProgression}" th:object="${progressionForm}" id="progressionForm">
+        <div th:each="i : ${#numbers.sequence(1,4)}">
+            <div id="chordContainer">
+                <select name="chords" th:field="*{chords}">
+                    <option th:each="chord : ${allChords}" th:value="${chord.id}" th:text="${chord.name}"></option>
+                </select>
+            </div>
+        </div>
+        <input type="hidden" name="user" th:value="${userID}">
+        <button type="submit">Создать последовательность</button>
+    </form>
+
+</div>
+<a href="/">На главную</a>
+</body>
+
+</html>

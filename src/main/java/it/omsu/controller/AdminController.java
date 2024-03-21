@@ -4,11 +4,11 @@ import it.omsu.entity.Chord;
 import it.omsu.entity.User;
 import it.omsu.service.ChordService;
 import it.omsu.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @Controller
 public class AdminController {
@@ -20,7 +20,7 @@ public class AdminController {
         this.chordService = chordService;
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/my_admin")
     public String userList(Model model) {
         model.addAttribute("allUsers", userService.allUsers());
         model.addAttribute("allChords", chordService.getAllChords());
@@ -30,7 +30,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin")
-    public String deleteUser(@RequestParam(required = true, defaultValue = "") Long userId, @RequestParam(required = true, defaultValue = "") String action, Model model) {
+    public String deleteUser(@RequestParam(required = true, defaultValue = "") String userId, @RequestParam(required = true, defaultValue = "") String action, Model model) {
         if (action.equals("delete")) {
             userService.deleteUser(userId);
         }
@@ -57,13 +57,13 @@ public class AdminController {
     }
 
     @PostMapping("/admin/createChord")
-    public String createPublicChord(@ModelAttribute("chordForm") @Valid Chord chordForm) {
-        Long userID = userService.getCurrentUserById();
-        System.out.println(userID);
-        User user = userService.findUserById(userID);
-        chordForm.setUser(user);
-        chordForm.setIsPublic(true);
-        chordService.createChord(chordForm);
-        return "redirect:/admin";
+    public String createPublicChord(@RequestParam String name, @RequestParam String userId) {
+        Chord chord = new Chord();
+        System.out.println(userId);
+        User user = userService.findUserById(userId);
+        chord.setName(name);
+        chord.setIsPublic(true);
+        chordService.createChord(chord);
+        return "admin";
     }
 }

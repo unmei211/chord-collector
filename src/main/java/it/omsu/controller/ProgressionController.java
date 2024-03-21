@@ -6,11 +6,12 @@ import it.omsu.entity.User;
 import it.omsu.service.ChordService;
 import it.omsu.service.ProgressionService;
 import it.omsu.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.util.List;
 
 @Controller
@@ -31,7 +32,7 @@ public class ProgressionController {
 
     @PostMapping("/collector/createProgression")
     public String createChordProgression(@ModelAttribute("progressionForm") @Valid Progression progressionForm,
-                                         @RequestParam("user") Long userId) {
+                                         @RequestParam("user") String userId) {
         User user = userService.findUserById(userId);
         progressionForm.addUser(user);
         progressionService.createProgression(progressionForm);
@@ -44,7 +45,7 @@ public class ProgressionController {
             @PathVariable("id") Long progressionId,
             Model model
     ) {
-        Long userID = userService.getCurrentUserById();
+        String userID = userService.getCurrentUserById();
         List<Chord> chords = chordService.getPublicChords();
         if (userID != null) {
             User user = userService.findUserById(userID);
@@ -59,11 +60,14 @@ public class ProgressionController {
 
     @PatchMapping("/progression/editor/{id}")
     public String updateProgression(
+            @PathVariable("id") Long progressionId,
             @ModelAttribute("progression") @Valid Progression progression
     ) {
-        progressionService.updateProgressionByTemplate(progression.getId(), progression);
+        progression.setId(progressionId);
+        progressionService.updateProgressionByTemplate(progressionId, progression);
         return "redirect:/profile";
     }
+
 }
 
 

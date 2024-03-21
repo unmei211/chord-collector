@@ -1,13 +1,11 @@
 package it.omsu.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "chords")
@@ -20,7 +18,6 @@ public class Chord {
 
     @Size(min = 1, message = "Не меньше 1 знака")
     private String name;
-
     @ManyToMany(mappedBy = "chords")
     private List<Progression> progressions;
 
