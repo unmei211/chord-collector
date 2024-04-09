@@ -21,6 +21,9 @@ services:
       DB_SCHEMA: public
       DB_USER: postgres
       DB_PASSWORD: cisco
+      VIRTUAL_HOST: chord.collector
+      VIRTUAL_PORT: 8080
+      PROXY_ADDRESS_FORWARDING: true
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: adminpass
       KEYCLOAK_IMPORT: /opt/jboss/keycloak/standalone/configuration/realm-export.json

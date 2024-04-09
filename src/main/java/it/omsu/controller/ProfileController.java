@@ -22,7 +22,6 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String showProfile(Model model) {
-        System.out.println("LOLOL");
         String id = userService.getCurrentUserById();
         User user = userService.findUserById(id);
         Set<Progression> progressions = user.getProgressions();

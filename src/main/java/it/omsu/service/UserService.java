@@ -97,10 +97,9 @@ public class UserService implements UserDetailsService {
                 .getPrincipal();
 
         String userId = "";
-
         OidcIdToken token = user.getIdToken();
+        Map<String, Object> info = user.getUserInfo().getClaims();
         Map<String, Object> customClaims = token.getClaims();
-
         if (customClaims.containsKey("user_id")) {
             userId = String.valueOf(customClaims.get("user_id"));
         }

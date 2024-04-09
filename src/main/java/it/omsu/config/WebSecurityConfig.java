@@ -40,7 +40,6 @@ public class WebSecurityConfig {
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
-                .csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(authorise -> authorise.accessDeniedPage("/access-denied"))
                 .oauth2Login(withDefaults())
                 .logout(logout ->
