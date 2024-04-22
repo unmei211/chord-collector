@@ -15,10 +15,16 @@ services:
       - 5601:5601 #kibana
       - 9200:9200 #elastic
       - 5044:5044 #logstash
-  filebeat:
+  log-shipper:
+    container_name: filebeat
     image: elastic/filebeat:7.9.2
-    ports:
-
+    entrypoint: filebeat -e -strict.perms=false
+    user: root
+    volumes:
+      - ./filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
+      # подключаем volume с лог-файлами в контейнер
+      - log:/var/app/log
 
 volumes:
   chord:
+  log:
