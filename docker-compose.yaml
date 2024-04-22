@@ -9,9 +9,10 @@ services:
       POSTGRES_PASSWORD: cisco
     networks:
       - keycloak-network
+    ports:
+      - 5432:5432
   keycloak:
-
-    image: jboss/keycloak:16.1.1
+    image: bitnami/keycloak
     ports:
       - 8180:8080
     environment:
@@ -20,12 +21,13 @@ services:
       DB_DATABASE: postgres
       DB_SCHEMA: public
       DB_USER: postgres
+      KEYCLOAK_DATABASE_PORT: 5432
       DB_PASSWORD: cisco
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: adminpass
-      KEYCLOAK_IMPORT: /opt/jboss/keycloak/standalone/configuration/realm-export.json
-    volumes:
-      - ./realm-export.json:/opt/jboss/keycloak/standalone/configuration/realm-export.json
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: adminpass
+#      KEYCLOAK_IMPORT: /opt/jboss/keycloak/standalone/configuration/realm-export.json
+#    volumes:
+#      - ./realm-export.json:/opt/jboss/keycloak/standalone/configuration/realm-export.json
     networks:
       - keycloak-network
     depends_on:
