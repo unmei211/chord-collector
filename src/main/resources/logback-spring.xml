@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+    <springProperty scope="context" name="logFilePattern" source="logging.file.filePattern"/>
     <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d [%thread] %-5level  %logger{35} - [%mdc] - %msg%n</pattern>
+            <pattern>%d [%thread] %-5level %logger{35} - [%mdc] - %msg%n</pattern>
         </encoder>
     </appender>
 
 
     <appender name="filebeatAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>./log/application.log</file>
+        <file>./mylog/application.log</file>
         <append>true</append>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>./log/application.%d.%i.log.gz</fileNamePattern>
+            <fileNamePattern>./mylog/application.%d.%i.log.gz</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
+            <maxHistory>24</maxHistory>
+            <cleanHistoryOnStart>true
+            </cleanHistoryOnStart>
         </rollingPolicy>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="consoleAppender" />
-        <appender-ref ref="filebeatAppender" />
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="filebeatAppender"/>
     </root>
 </configuration>
