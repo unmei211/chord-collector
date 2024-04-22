@@ -2,6 +2,7 @@ package it.omsu.controller;
 
 import it.omsu.entity.User;
 import it.omsu.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 
 @Controller
+@Slf4j
 public class RegistrationController {
     private UserService userService;
     
@@ -29,7 +31,7 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult, Model model) {
-
+        log.info("try to register LOG LOG LOG");
         if (bindingResult.hasErrors()) {
             return "registration";
         }

@@ -5,6 +5,7 @@ import it.omsu.entity.Progression;
 import it.omsu.entity.User;
 import it.omsu.service.ChordService;
 import it.omsu.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Controller
 public class ChordController {
     private ChordService chordService;
@@ -39,7 +41,7 @@ public class ChordController {
     @GetMapping("/collector")
     public String getAllChords(Model model) {
         Long userID = userService.getCurrentUserById();
-
+        log.info("get all chrods");
         List<Chord> chords = chordService.getPublicChords();
         if (userID != null) {
             User user = userService.findUserById(userID);

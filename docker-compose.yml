@@ -1,0 +1,24 @@
+services:
+  database:
+    ports:
+      - 5432:5432
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cisco
+      POSTGRES_DB: postgres
+    volumes:
+      - chord:/var/lib/postgresql/data
+  elk:
+    image: sebp/elk
+    ports:
+      - 5601:5601 #kibana
+      - 9200:9200 #elastic
+      - 5044:5044 #logstash
+  filebeat:
+    image: elastic/filebeat:7.9.2
+    ports:
+
+
+volumes:
+  chord:
