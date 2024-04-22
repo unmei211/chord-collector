@@ -18,6 +18,3 @@ hs_err_pid*
 target
 .idea
 /.idea
-keycloak
-keycloak/
-/keycloak

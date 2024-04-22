@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 @Controller
@@ -22,7 +23,7 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String showProfile(Model model) {
-        String id = userService.getCurrentUserById();
+        Long id = userService.getCurrentUserById();
         User user = userService.findUserById(id);
         Set<Progression> progressions = user.getProgressions();
         System.out.println("Progressions: " + progressions);
