@@ -9,6 +9,8 @@ services:
       POSTGRES_DB: postgres
     volumes:
       - chord:/var/lib/postgresql/data
+  kib:
+
   elk:
     image: sebp/elk
     ports:
@@ -22,8 +24,7 @@ services:
     user: root
     volumes:
       - ./filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
-      # подключаем volume с лог-файлами в контейнер
-      - log:/var/app/log
+      - ./log:/var/app/log
 
 volumes:
   chord:
