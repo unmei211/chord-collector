@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: mailing
+  rabbitmq:
+    host: localhost
+    password: guest
+    username: guest
+  mail:
+    host: smtp.mailgun.org
+    port: 587
+    username: postmaster@sandboxb821dfbc20a24f87be46245a4a8fa992.mailgun.org
+    password: ea59baaeb327ef97600f08f47d8ec549-2175ccc2-103deb6a
