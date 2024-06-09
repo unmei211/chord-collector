@@ -1,0 +1,25 @@
+version: '3.3'
+volumes:
+  chord:
+services:
+  database:
+    ports:
+      - 5432:5432
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cisco
+      POSTGRES_DB: postgres
+    volumes:
+      - chord:/var/lib/postgresql/data
+  queue:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+#    environment:
+#      RABBITMQ_DEFAULT_VHOST: vhost
+    restart: always
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
